@@ -214,7 +214,7 @@ class ParametersCollection implements ParametersInterface
         return static::createFromIni(file_get_contents($file->getRealPath()));
         
       default:
-        throw new \InvalidArgumentException('Cannot determine parser');
+        throw new \InvalidArgumentException(sprintf('Not supported file format ".%s" for parsing parameters', $file->getExtension()));
     }
   }
   

@@ -70,7 +70,7 @@ $parametersA->merge(new ParametersCollection(JsonParser::parse('
 
 //var_dump($parametersA, $array);
 
-var_dump($parametersA->toPHP());
+var_dump($parametersA->toYaml(), ParametersCollection::createFromFile(__DIR__ . '/_config.ini')->toYaml());
 
 //use Dez\Config\Config;
 //
