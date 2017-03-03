@@ -1,7 +1,7 @@
 {
-  "name": "dez-php/dez-configuration",
-  "description": "DezPHP - Config",
-  "keywords": ["php config","config", "dez-php config", "dez-config" ],
+  "name": "dezbyte/colibri-parameters",
+  "description": "Colibri Parameters Reader 🍓",
+  "keywords": ["php parameters","parameters", "dezbyte"],
   "authors": [
     {
       "name": "Ivan Gontarenko",
