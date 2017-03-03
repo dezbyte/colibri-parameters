@@ -1,4 +1,4 @@
-# Dez Config Component
+# Colibri Parameters Reader 🍓
 
 ## Usage
 
