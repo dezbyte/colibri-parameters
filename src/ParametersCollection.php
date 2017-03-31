@@ -48,7 +48,8 @@ class ParametersCollection implements ParametersInterface
    */
   public function offsetGet($offset)
   {
-    return $this->get($offset, null);
+    return strpos($offset, '.') !== false
+      ? $this->path($offset, null) : $this->get($offset, null);
   }
   
   /**
@@ -212,6 +213,9 @@ class ParametersCollection implements ParametersInterface
         
       case 'ini':
         return static::createFromIni(file_get_contents($file->getRealPath()));
+        
+      case 'php':
+        return new static(include_once $file->getRealPath());
         
       default:
         throw new \InvalidArgumentException(sprintf('Not supported file format ".%s" for parsing parameters', $file->getExtension()));
