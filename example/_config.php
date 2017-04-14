@@ -2,6 +2,8 @@
 
     return [
         'app'   => [
+            'file' => __FILE__,
+            'root' => __DIR__,
             'db' => [
                 'host' => 'localhost',
                 'b' => '333qqq',
@@ -18,5 +20,6 @@
             ]
         ],
         'salt' => 'asd123',
-        'app_name' => 'Name'
+        'app_name' => 'Name',
+        'connection' => 'UserName: {db.connection.development.user} with password {db.connection.production.password} Main Format: [{glossary.GlossDiv.GlossList.GlossEntry.GlossDef.GlossSeeAlso.1}]'
     ];

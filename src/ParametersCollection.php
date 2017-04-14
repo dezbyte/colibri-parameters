@@ -279,4 +279,46 @@ class ParametersCollection implements ParametersInterface
     return count($this->parameters);
   }
   
+  /**
+   * @return $this
+   */
+  public function handlePlaceholders()
+  {
+    return $this->parsePlaceholders($this);
+  }
+  
+  /**
+   * @param ParametersInterface $parameters
+   * @return $this
+   */
+  private function parsePlaceholders(ParametersInterface $parameters)
+  {
+    foreach ($parameters as $offset => $parameter) {
+      if ($parameter instanceof ParametersInterface) {
+        $this->parsePlaceholders($parameter);
+      } elseif (gettype($parameter) === 'string') {
+        $parameters->set($offset, $this->parsePlaceholderValue($parameter));
+      }
+    }
+    
+    return $this;
+  }
+  
+  /**
+   * @param $parameterValue
+   * @return mixed
+   */
+  private function parsePlaceholderValue($parameterValue)
+  {
+    if (true === (boolean)preg_match_all('/\{([\.a-z0-9_-]+)\}/uis', $parameterValue, $matchesAll, PREG_SET_ORDER)) {
+      // Handle each matches and replace placeholders
+      foreach ($matchesAll as $matches) {
+        list($placeholder, $path) = $matches;
+        $parameterValue = str_replace($placeholder, $this->path($path), $parameterValue);
+      }
+    }
+    
+    return $parameterValue;
+  }
+  
 }

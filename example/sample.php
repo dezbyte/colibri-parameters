@@ -10,6 +10,13 @@ include_once '../vendor/autoload.php';
 error_reporting( E_ALL | E_STRICT );
 ini_set( 'display_errors', 'On' );
 
+class PlaceholderCollection extends ParametersCollection {
+  
+  
+}
+
+$main = new PlaceholderCollection();
+
 $parametersA = new ParametersCollection([
   'a' => 1,
   'b' => 2,
@@ -51,7 +58,7 @@ $parametersA->merge(new ParametersCollection(JsonParser::parse('
             "title": "S",
 			"GlossList": {
                 "GlossEntry": {
-                    "ID": "SGML",
+                    "ID": "SGML {app.root} {app.file}",
 					"SortAs": "SGML",
 					"GlossTerm": "Standard Generalized Markup Language",
 					"Acronym": "SGML",
@@ -70,7 +77,13 @@ $parametersA->merge(new ParametersCollection(JsonParser::parse('
 
 //var_dump($parametersA, $array);
 
-var_dump($parametersA->toYaml(), ParametersCollection::createFromFile(__DIR__ . '/_config.ini')->toYaml());
+$parametersA->merge(ParametersCollection::createFromFile('./_config.php'));
+
+$main->merge($parametersA)->merge(ParametersCollection::createFromFile(__DIR__ . '/_config.ini'));
+
+$main->set('aaa.ddd', 'test app.db.host');
+
+var_dump($main->handlePlaceholders()->toINI());
 
 //use Dez\Config\Config;
 //

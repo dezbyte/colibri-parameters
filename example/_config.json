@@ -8,11 +8,12 @@
     "components": {
       "auth": {
         "type": "simple merge from json",
-        "descr": "test merge"
+        "descr": "test merge",
+        "path": "{app.root}/componenets"
       }
     }
   },
-  "salt": "salt json",
+  "salt": "salt json []",
   "app_name": "Name from json",
   "is_dev": "asd"
 }
