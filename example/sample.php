@@ -52,10 +52,16 @@ $parametersC->getIterator()->getArrayCopy();
 $parametersA->merge($parametersC);
 $parametersA->merge(new ParametersCollection(JsonParser::parse('
 {
+"a":{
+"b": "value a.b -> {a.c}",
+"c": "value a.c -> {a.b}"
+},
     "glossary": {
+        "a" : "asd {glossary.GlossDiv.asd} asd",
         "title": "example glossary",
 		"GlossDiv": {
             "title": "S",
+            "asd": "asdasd: ({glossary.title})",
 			"GlossList": {
                 "GlossEntry": {
                     "ID": "SGML {app.root} {app.file}",

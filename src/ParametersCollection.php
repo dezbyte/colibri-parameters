@@ -306,15 +306,27 @@ class ParametersCollection implements ParametersInterface
   
   /**
    * @param $parameterValue
+   * @param array $visitor
    * @return mixed
    */
-  private function parsePlaceholderValue($parameterValue)
+  private function parsePlaceholderValue($parameterValue, array &$visitor = [])
   {
-    if (true === (boolean)preg_match_all('/\{([\.a-z0-9_-]+)\}/uis', $parameterValue, $matchesAll, PREG_SET_ORDER)) {
+    if (strpos($parameterValue, '{') !== false && true === (boolean)preg_match_all('/\{([\.a-z0-9_-]+)\}/uis', $parameterValue, $matchesAll, PREG_SET_ORDER)) {
       // Handle each matches and replace placeholders
       foreach ($matchesAll as $matches) {
+        
         list($placeholder, $path) = $matches;
-        $parameterValue = str_replace($placeholder, $this->path($path), $parameterValue);
+        $replaceValue = $this->path($path);
+        
+        if (isset($visitor[$path])) {
+          $parameterValue = sprintf('[RECURSION: %s]', array_pop($visitor));
+          continue;
+        }
+  
+        $visitor[$path] = $placeholder;
+  
+        $replaceValue = $this->parsePlaceholderValue($replaceValue, $visitor);
+        $parameterValue = str_replace($placeholder, $replaceValue, $parameterValue);
       }
     }
     
